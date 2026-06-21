@@ -36,156 +36,44 @@
   a{color:inherit; text-decoration:none;}
   ul{list-style:none;}
 
-  .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
-  .reveal.visible{opacity:1; transform:translateY(0);}
-
-  nav{
-    position:fixed; top:0; left:0; right:0; z-index:100;
-    backdrop-filter:blur(12px); background:rgba(7,7,10,0.72); border-bottom:1px solid var(--line);
-  }
-  .nav-inner{max-width:1180px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between;}
-  .logo{display:flex; align-items:center; gap:10px; font-weight:800; font-size:18px; letter-spacing:0.5px;}
-  .logo-mark{width:30px; height:30px;}
-  .logo span{background:linear-gradient(90deg,var(--ember-soft),var(--ember-2)); -webkit-background-clip:text; background-clip:text; color:transparent;}
-  .nav-links{display:flex; gap:28px; font-size:14px; font-weight:600; color:var(--text-dim);}
-  .nav-links a:hover{color:var(--ember-soft);}
-  .nav-cta{display:flex; align-items:center; gap:14px;}
-  .hamburger{display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none;}
-  .hamburger span{width:22px; height:2px; background:var(--text);}
-  .mobile-menu{
-    display:none; position:fixed; top:62px; left:0; right:0; background:var(--obsidian-2);
-    border-bottom:1px solid var(--line); padding:18px 24px; flex-direction:column; gap:16px; z-index:99;
-    max-height:80vh; overflow-y:auto;
-  }
-  .mobile-menu.open{display:flex;}
-  .mobile-menu a{font-weight:600; font-size:15px; color:var(--text-dim);}
-
-  .btn{
-    display:inline-flex; align-items:center; justify-content:center; gap:8px;
-    padding:12px 22px; border-radius:10px; font-weight:700; font-size:14px;
-    cursor:pointer; border:none; transition:transform .2s ease, box-shadow .2s ease; white-space:nowrap;
-  }
-  .btn-primary{background:linear-gradient(90deg,var(--ember),var(--ember-2)); color:#0a0a0a; box-shadow:0 8px 24px -8px rgba(255,90,30,0.6);}
-  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 12px 28px -8px rgba(255,90,30,0.8);}
-  .btn-outline{background:transparent; border:1px solid var(--line); color:var(--text);}
-  .btn-outline:hover{border-color:var(--ember-soft); color:var(--ember-soft);}
-
-  .toast{
-    position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px);
-    background:var(--panel-2); border:1px solid var(--line); color:var(--text);
-    padding:14px 22px; border-radius:12px; font-size:13.5px; font-weight:600;
-    box-shadow:0 16px 40px -10px rgba(0,0,0,0.6); z-index:200; opacity:0; pointer-events:none;
-    transition:opacity .3s ease, transform .3s ease; max-width:90vw; text-align:center;
-  }
-  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
-
-  #hero{position:relative; min-height:100vh; display:flex; align-items:center; padding:110px 0 60px; overflow:hidden;}
-  #ember-canvas{position:absolute; inset:0; width:100%; height:100%; z-index:0; opacity:0.8;}
-  .hero-glow{
-    position:absolute; width:600px; height:600px; border-radius:50%;
-    background:radial-gradient(circle, rgba(255,106,43,0.18), transparent 70%);
-    top:-100px; right:-150px; z-index:0; pointer-events:none;
-  }
-  .hero-inner{position:relative; z-index:2; display:flex; align-items:center; gap:50px; width:100%;}
-  .hero-text{flex:1.1; min-width:0;}
-  .eyebrow{
-    display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:800;
-    letter-spacing:1.5px; color:var(--ember-soft); background:rgba(255,106,43,0.1);
-    border:1px solid rgba(255,106,43,0.3); padding:6px 14px; border-radius:999px; margin-bottom:22px;
-  }
-  .eyebrow .dot{width:6px; height:6px; border-radius:50%; background:var(--ember); box-shadow:0 0 8px var(--ember);}
-  h1{font-size:clamp(34px, 5.2vw, 58px); font-weight:900; line-height:1.08; letter-spacing:-1px; margin-bottom:22px;}
-  h1 .grad{background:linear-gradient(90deg,var(--ember-soft),var(--ember-2)); -webkit-background-clip:text; background-clip:text; color:transparent;}
-  .hero-sub{font-size:17px; color:var(--text-dim); max-width:520px; margin-bottom:14px;}
-  .hero-joke{font-size:13px; color:var(--text-faint); font-style:italic; margin-bottom:30px;}
-  .hero-actions{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px;}
-  .hero-stats{display:flex; gap:34px; flex-wrap:wrap;}
-  .hero-stats div b{display:block; font-size:22px; font-weight:800; color:var(--text);}
-  .hero-stats div span{font-size:12px; color:var(--text-faint); letter-spacing:0.5px;}
-  .hero-art{flex:1; display:flex; justify-content:center; position:relative; min-width:0;}
-  .hero-art-glow{
-    position:absolute; width:380px; height:380px; border-radius:50%;
-    background:radial-gradient(circle, rgba(255,140,60,0.35), transparent 72%);
-    filter:blur(4px); animation:pulse 4s ease-in-out infinite;
-  }
-  @keyframes pulse{0%,100%{transform:scale(1); opacity:0.8;} 50%{transform:scale(1.08); opacity:1;}}
-  .mascot{position:relative; width:340px; animation:float 5s ease-in-out infinite;}
-  .mascot.mascot-photo{border-radius:20px; max-width:90%; object-fit:cover; box-shadow:0 30px 70px -20px rgba(0,0,0,0.6), 0 0 60px rgba(255,106,43,0.2);}
-  @keyframes float{0%,100%{transform:translateY(0);} 50%{transform:translateY(-14px);}}
-
-  .section{padding:110px 0;}
-  .section-tag{font-size:12px; font-weight:800; letter-spacing:2px; color:var(--ember-soft); text-transform:uppercase; margin-bottom:14px; display:block;}
-  .section-title{font-size:clamp(26px,3.4vw,40px); font-weight:900; letter-spacing:-0.5px; margin-bottom:16px;}
-  .section-sub{color:var(--text-dim); font-size:16px; max-width:640px; margin-bottom:50px;}
-  .center{text-align:center; margin-left:auto; margin-right:auto;}
-
-  #engine{background:radial-gradient(ellipse at 50% 0%, rgba(255,106,43,0.09), transparent 60%);} 
-  /* rest of CSS omitted for brevity in this commit, preserved from original file */
+  /* simplified styles for Pages */
+  #hero{position:relative; min-height:60vh; display:flex; align-items:center; padding:80px 0;}
+  .hero-inner{display:flex; gap:40px; align-items:center; width:100%;}
+  .hero-text{flex:1}
+  .hero-art{flex:1; display:flex; justify-content:center}
+  .mascot{width:100%; max-width:920px; border-radius:12px; object-fit:cover}
+  nav{position:fixed; top:0; left:0; right:0; background:rgba(7,7,10,0.8); backdrop-filter:blur(8px); padding:12px 24px; border-bottom:1px solid var(--line)}
+  .logo{font-weight:800; background:linear-gradient(90deg,var(--ember-soft),var(--ember-2)); -webkit-background-clip:text; color:transparent}
+  footer{padding:40px 0; color:var(--text-dim); text-align:center}
 </style>
 </head>
 <body>
-
-<nav>
-  <div class="nav-inner">
-    <div class="logo">
-      <svg class="logo-mark" viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="#14161b" stroke="#ff6a2b" stroke-width="1.5"/><path d="M20 9c4 5-3 6-1 11 1.5 3.5 6 3 6 7 0 4.5-4 7-9 7s-9-2.[...]"/>
-      <span>DAD</span>
-    </div>
-    <div class="nav-links">
-      <a href="#engine">Live Engine</a>
-      <a href="#token">Token</a>
-      <a href="#nfts">NFTs</a>
-      <a href="#roadmap">Roadmap</a>
-    </div>
-    <div class="nav-cta">
-      <a href="#" class="btn btn-primary" id="buyBtnNav" style="padding:10px 18px;">Buy $DAD</a>
-      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#engine">Live Engine</a>
-    <a href="#token">Token</a>
-    <a href="#app-preview">App Preview</a>
-    <a href="#nfts">NFTs</a>
-    <a href="#agents">Agents</a>
-    <a href="#trends">Trend Engine</a>
-    <a href="#products">Products</a>
-    <a href="#marketplace">Marketplace</a>
-    <a href="#charity">Dad Gives</a>
-    <a href="#roadmap">Roadmap</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <canvas id="ember-canvas"></canvas>
-  <div class="hero-glow"></div>
-  <div class="wrap hero-inner">
-    <div class="hero-text">
-      <div class="eyebrow"><span class="dot"></span> $DAD · LIVE ON SOLANA</div>
-      <h1>Build Yourself.<br>Build Your <span class="grad">Family</span>.<br>Build Your <span class="grad">Future</span>.</h1>
-      <p class="hero-sub">A meme coin that grows into a self-improving economic organism — AI agents, dynamic NFTs, real products, and a treasury that compounds every dollar back into the ecosy[...]</p>
-      <p class="hero-joke">No ghosting. No excuses. Just compounding.</p>
-      <div class="hero-actions">
-        <a href="#" class="btn btn-primary" id="buyBtnHero">🔥 Buy $DAD</a>
-        <a href="#engine" class="btn btn-outline">See It Running</a>
+<nav><div class="wrap"><span class="logo">DAD</span></div></nav>
+<main style="padding-top:70px">
+  <section id="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-text">
+        <h1 style="font-size:clamp(28px,4vw,44px);margin:0 0 12px">Build Yourself. Build Your <span style="background:linear-gradient(90deg,var(--ember-soft),var(--ember-2));-webkit-background-clip:text;color:transparent">Family</span>.</h1>
+        <p style="color:var(--text-dim);max-width:580px">A meme coin that grows into a self-improving economic organism — AI agents, dynamic NFTs, real products, and a treasury that compounds every dollar back into the ecosystem.</p>
       </div>
-      <div class="hero-stats">
-        <div><b>9</b><span>FLYWHEEL STAGES</span></div>
-        <div><b>6</b><span>NFT EVOLUTIONS</span></div>
-        <div><b>3</b><span>AGENT TIERS</span></div>
-        <div><b>$100M</b><span>MILESTONE VISION</span></div>
+      <div class="hero-art">
+        <!-- images are in docs/ so use relative paths -->
+        <img class="mascot" src="IMG_0037.jpeg" alt="Dad mascot wide banner">
       </div>
     </div>
-    <div class="hero-art">
-      <div class="hero-art-glow"></div>
-      <!-- Replaced external image with local repo image IMG_0037.jpeg -->
-      <img class="mascot mascot-photo" src="IMG_0037.jpeg" alt="Dad mascot">
+  </section>
+</main>
+<footer>
+  <div class="wrap">
+    <div style="display:flex;align-items:center;gap:12px;justify-content:center">
+      <img src="IMG_0030.jpeg" alt="avatar" style="width:58px;height:58px;border-radius:10px;object-fit:cover">
+      <div style="text-align:left">
+        <div style="font-weight:800">DAD</div>
+        <div style="color:var(--text-dim);font-size:13px">Community project — not financial advice.</div>
+      </div>
     </div>
+    <div style="margin-top:18px">© 2026 DAD</div>
   </div>
-</section>
-
-<!-- Remaining HTML preserved as original, omitted here for brevity in the commit file -->
-
+</footer>
 </body>
 </html>
