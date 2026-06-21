@@ -120,7 +120,296 @@
   .center{text-align:center; margin-left:auto; margin-right:auto;}
 
   #engine{background:radial-gradient(ellipse at 50% 0%, rgba(255,106,43,0.09), transparent 60%);}
-  /* (full CSS continues as originally authored) */
+  .fw-container{position:relative; width:560px; height:560px; margin:0 auto 30px;}
+  .fw-ring{position:absolute; inset:30px; border:1.5px dashed rgba(255,106,43,0.35); border-radius:50%;}
+  .fw-sweep{
+    position:absolute; inset:30px; border-radius:50%;
+    background:conic-gradient(from 0deg, rgba(255,106,43,0.0), rgba(255,106,43,0.25), rgba(255,106,43,0.0) 12%);
+    animation:spin 6s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .fw-hub{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:140px; height:140px; border-radius:50%;
+    background:linear-gradient(160deg,var(--panel-2),var(--panel));
+    border:1px solid var(--line); display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; box-shadow:0 0 40px rgba(255,106,43,0.15);
+  }
+  .fw-hub .flame{font-size:26px; margin-bottom:4px;}
+  .fw-hub span{font-size:10px; font-weight:800; letter-spacing:1px; color:var(--text-dim); padding:0 14px;}
+  .fw-item{
+    position:absolute; top:50%; left:50%; width:0; height:0;
+    transform:rotate(calc(40deg * var(--i))) translate(240px) rotate(calc(-40deg * var(--i)));
+  }
+  .fw-node{display:flex; flex-direction:column; align-items:center; gap:8px; width:110px; transform:translate(-55px,-30px);}
+  .fw-circle{
+    width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(160deg,var(--panel-2),var(--panel)); border:1px solid var(--line);
+    font-weight:800; font-size:14px; color:var(--ember-soft); flex-shrink:0;
+    box-shadow:0 0 16px rgba(255,106,43,0.12); transition:background .5s ease, box-shadow .5s ease, color .5s ease;
+  }
+  .fw-circle.active{background:linear-gradient(160deg,var(--ember),var(--ember-2)); color:#0a0a0a; box-shadow:0 0 24px rgba(255,106,43,0.65);}
+  .fw-node p{font-size:11.5px; font-weight:700; color:var(--text-dim); text-align:center; line-height:1.3;}
+
+  .impact-counter{
+    max-width:760px; margin:0 auto 32px; background:var(--panel); border:1px solid rgba(255,106,43,0.3);
+    border-radius:18px; padding:28px 32px; display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:16px; box-shadow:0 0 50px -10px rgba(255,106,43,0.15);
+  }
+  .impact-counter-label{font-size:11px; font-weight:800; letter-spacing:1px; color:var(--text-faint); text-transform:uppercase; margin-bottom:6px;}
+  .impact-counter-value{font-size:36px; font-weight:900;}
+  .next-milestone{font-size:11.5px; color:var(--ember-soft); font-weight:700; margin-top:6px;}
+  .impact-live{display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:800; color:var(--green); letter-spacing:0.5px;}
+  .impact-live .ld{width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 6px var(--green); animation:pulse 1.6s ease-in-out infinite;}
+  .impact-note{font-size:11px; color:var(--text-faint); max-width:230px; text-align:right; line-height:1.4;}
+  .phase-grid{display:flex; gap:22px; max-width:980px; margin:0 auto; flex-wrap:wrap; align-items:stretch;}
+  .phase-card{flex:1; min-width:300px; background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:26px; position:relative; overflow:hidden; transition:opacity .4s ease;}
+  .phase-card.locked{opacity:0.5;}
+  .lock-overlay{
+    position:absolute; inset:0; background:rgba(7,7,10,0.6); display:flex; align-items:center; justify-content:center;
+    text-align:center; font-size:13px; font-weight:700; color:var(--text-dim); padding:24px;
+    backdrop-filter:blur(2px); z-index:5; transition:opacity .4s ease;
+  }
+  .lock-overlay.hidden{opacity:0; pointer-events:none;}
+  .phase-header{display:flex; align-items:center; gap:10px; margin-bottom:6px;}
+  .phase-header .pe{font-size:20px;}
+  .phase-header h4{font-size:15.5px; font-weight:800;}
+  .phase-target{font-size:12px; color:var(--text-faint); margin-bottom:16px;}
+  .phase-progress-label{display:flex; justify-content:space-between; font-size:11.5px; color:var(--text-dim); margin-bottom:6px;}
+  .phase-breakdown{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:18px 0;}
+  .phase-item{background:var(--panel-2); border:1px solid var(--line); border-radius:10px; padding:10px 6px; text-align:center;}
+  .phase-item b{display:block; font-size:13px; color:var(--ember-soft);}
+  .phase-item span{font-size:9px; color:var(--text-faint); line-height:1.3;}
+  .phase-unlocks{border-top:1px solid var(--line); padding-top:14px;}
+  .phase-unlocks li{font-size:12px; padding:4px 0; color:var(--text-faint); transition:color .3s ease;}
+  .phase-unlocks li.done{color:var(--text);}
+  .phase-arrow-row{display:flex; align-items:center; justify-content:center; color:var(--ember); font-size:22px; flex:0 0 30px;}
+  .progress-track{height:6px; border-radius:6px; background:var(--gunmetal); overflow:hidden; margin-top:4px;}
+  .progress-fill{height:100%; background:linear-gradient(90deg,var(--ember),var(--ember-soft)); width:0%; transition:width .6s ease;}
+
+  #token .token-grid{display:flex; gap:60px; align-items:center; flex-wrap:wrap;}
+  .token-features{flex:1; min-width:280px;}
+  .token-features li{display:flex; gap:12px; margin-bottom:18px; font-size:15px; color:var(--text-dim);}
+  .token-features li b{color:var(--text); font-weight:700;}
+  .check{
+    flex-shrink:0; width:22px; height:22px; border-radius:50%; background:rgba(107,220,138,0.12);
+    color:var(--green); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:900;
+  }
+  .donut-wrap{flex:1; min-width:280px; display:flex; flex-direction:column; align-items:center; gap:24px;}
+  .donut-chart-area{position:relative; width:240px; height:240px;}
+  #donut{width:240px; height:240px;}
+  .donut-center{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center;}
+  .donut-center b{font-size:22px; font-weight:900; display:block;}
+  .donut-center span{font-size:11px; color:var(--text-faint); letter-spacing:0.5px;}
+  .legend{display:grid; grid-template-columns:1fr 1fr; gap:10px 24px; width:100%; max-width:380px;}
+  .legend-item{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-dim);}
+  .legend-dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .legend-item b{color:var(--text); margin-left:auto;}
+
+  #app-preview{background:radial-gradient(ellipse at 50% 100%, rgba(255,106,43,0.06), transparent 60%);}
+  .app-preview-wrap{perspective:1600px;}
+  .app-frame{
+    background:linear-gradient(160deg,var(--panel-2),var(--panel));
+    border:1px solid var(--line); border-radius:20px; overflow:hidden;
+    box-shadow:0 30px 80px -24px rgba(0,0,0,0.65), 0 0 50px rgba(255,106,43,0.08);
+    transform:rotateX(5deg) rotateY(-3deg); transition:transform .5s ease; max-width:920px; margin:0 auto;
+  }
+  .app-frame:hover{transform:rotateX(0deg) rotateY(0deg);}
+  .app-topbar{display:flex; align-items:center; gap:8px; padding:14px 18px; border-bottom:1px solid var(--line); background:var(--obsidian-2);}
+  .app-dot{width:10px; height:10px; border-radius:50%;}
+  .app-dot.r{background:#ff5f56;} .app-dot.y{background:#ffbd2e;} .app-dot.g{background:#27c93f;}
+  .app-title{margin-left:10px; font-size:12px; color:var(--text-faint); font-weight:700; letter-spacing:0.5px;}
+  .app-body{display:flex; min-height:380px;}
+  .app-sidebar{width:64px; background:var(--obsidian-2); border-right:1px solid var(--line); display:flex; flex-direction:column; align-items:center; gap:20px; padding:24px 0;}
+  .app-sidebar .si{width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; background:var(--gunmetal); color:var(--text-dim);}
+  .app-sidebar .si.active{background:linear-gradient(160deg,var(--ember),var(--ember-2)); color:#0a0a0a;}
+  .app-main{flex:1; padding:26px; display:grid; grid-template-columns:1.2fr 1fr; gap:18px;}
+  .app-card{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px;}
+  .app-card h5{font-size:11px; letter-spacing:1px; color:var(--text-faint); text-transform:uppercase; margin-bottom:12px;}
+  .wallet-balance{font-size:24px; font-weight:900; margin-bottom:2px;}
+  .wallet-usd{font-size:12.5px; color:var(--text-faint); margin-bottom:16px;}
+  .wallet-actions{display:flex; gap:10px;}
+  .wallet-actions button{flex:1; padding:9px; border-radius:8px; border:1px solid var(--line); background:var(--gunmetal); color:var(--text); font-size:12px; font-weight:700; cursor:pointer;}
+  .wallet-actions button:hover{border-color:var(--ember-soft);}
+  .agent-status-row{display:flex; align-items:center; justify-content:space-between; padding:9px 0; border-top:1px solid var(--line); font-size:12.5px; color:var(--text-dim);}
+  .agent-status-row:first-child{border-top:none;}
+  .status-dot{width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 6px var(--green); margin-right:6px; display:inline-block;}
+  .nft-mini{display:flex; align-items:center; gap:14px; margin-bottom:10px;}
+  .nft-mini-badge{width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; background:linear-gradient(160deg,#5c3a1f,#2b1e10); flex-shrink:0;}
+  .treasury-mini-chart{display:flex; align-items:flex-end; gap:4px; height:46px; margin-bottom:8px;}
+  .treasury-mini-chart span{flex:1; background:linear-gradient(180deg,var(--ember-soft),var(--ember-2)); border-radius:3px;}
+
+  #nfts{background:linear-gradient(180deg, var(--obsidian-2), var(--obsidian));}
+  .ladder{display:flex; gap:18px; overflow-x:auto; padding:10px 4px 24px; scroll-snap-type:x proximity;}
+  .ladder::-webkit-scrollbar{height:6px;}
+  .ladder::-webkit-scrollbar-thumb{background:var(--gunmetal); border-radius:6px;}
+  .nft-card{
+    flex:0 0 200px; scroll-snap-align:start; background:var(--panel); border:1px solid var(--line);
+    border-radius:16px; padding:22px 16px; text-align:center; position:relative; cursor:pointer;
+    transition:border-color .2s, transform .2s;
+  }
+  .nft-card:hover{border-color:var(--ember-soft); transform:translateY(-3px);}
+  .nft-card .lvl{position:absolute; top:12px; right:14px; font-size:11px; font-weight:800; color:var(--text-faint);}
+  .nft-badge{width:78px; height:78px; border-radius:50%; margin:6px auto 16px; display:flex; align-items:center; justify-content:center; font-size:32px;}
+  .nft-card h4{font-size:14.5px; font-weight:800; margin-bottom:8px;}
+  .nft-card p{font-size:12px; color:var(--text-faint); line-height:1.4;}
+  .ladder-arrow{display:flex; align-items:center; justify-content:center; color:var(--ember); font-size:18px; flex:0 0 18px;}
+
+  #agents{background:radial-gradient(ellipse at 80% 20%, rgba(61,243,255,0.05), transparent 55%);}
+  .agent-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  .agent-card{background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:30px 26px; position:relative; overflow:hidden;}
+  .agent-card.tier2{border-color:rgba(61,243,255,0.25);}
+  .agent-card.tier3{border-color:rgba(182,107,255,0.3);}
+  .agent-card .tier-icon{font-size:26px; margin-bottom:14px;}
+  .agent-card h3{font-size:18px; font-weight:800; margin-bottom:6px;}
+  .agent-card .tier-label{font-size:11px; font-weight:800; letter-spacing:1px; color:var(--text-faint); margin-bottom:18px; text-transform:uppercase;}
+  .agent-card ul li{font-size:13.5px; color:var(--text-dim); padding:7px 0; border-top:1px solid var(--line); display:flex; gap:8px;}
+  .agent-card ul li:first-child{border-top:none;}
+
+  #trends .trend-grid{display:flex; gap:40px; flex-wrap:wrap;}
+  .trend-col{flex:1; min-width:300px; background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:30px;}
+  .trend-col h3{font-size:17px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:10px;}
+  .pill-row{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:22px;}
+  .pill{font-size:12px; font-weight:700; padding:6px 12px; border-radius:999px; background:var(--gunmetal); color:var(--text-dim); border:1px solid var(--line);}
+  .trend-col ul li{font-size:13.5px; color:var(--text-dim); padding:6px 0; display:flex; gap:8px;}
+  .trend-col ul li::before{content:"›"; color:var(--ember-soft); font-weight:900;}
+
+  #products{background:linear-gradient(180deg, var(--obsidian), var(--obsidian-2));}
+  .product-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  .product-card{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:22px; display:flex; align-items:center; gap:14px; transition:border-color .2s, transform .2s;}
+  .product-card:hover{border-color:var(--ember-soft); transform:translateY(-3px);}
+  .product-card .pi{font-size:26px;}
+  .product-card h4{font-size:14px; font-weight:700;}
+  .product-card p{font-size:12px; color:var(--text-faint);}
+
+  #marketplace{background:radial-gradient(ellipse at 80% 0%, rgba(182,107,255,0.06), transparent 55%);}
+  .mkt-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:40px;}
+  .mkt-card{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:24px 16px; text-align:center; transition:border-color .2s, transform .2s;}
+  .mkt-card:hover{border-color:var(--holo-purple); transform:translateY(-3px);}
+  .mkt-card .mi{font-size:24px; margin-bottom:10px;}
+  .mkt-card h4{font-size:13px; font-weight:700;}
+  .mkt-stats{display:flex; gap:18px; flex-wrap:wrap;}
+  .mkt-stat{flex:1; min-width:200px; background:var(--panel-2); border:1px solid var(--line); border-radius:14px; padding:20px;}
+  .mkt-stat b{display:block; font-size:20px; font-weight:900; color:var(--ember-soft); margin-bottom:4px;}
+  .mkt-stat span{font-size:12px; color:var(--text-faint);}
+
+  #charity{background:radial-gradient(ellipse at 20% 50%, rgba(107,220,138,0.06), transparent 55%);}
+  .charity-top{display:flex; gap:40px; flex-wrap:wrap; align-items:center; margin-bottom:46px;}
+  .charity-stat{flex:1; min-width:220px; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:26px; text-align:center;}
+  .charity-stat .amt{font-size:30px; font-weight:900; color:var(--green); margin-bottom:6px;}
+  .charity-stat .lbl{font-size:12px; color:var(--text-faint); letter-spacing:0.5px;}
+  .cause-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  .cause-card{background:var(--panel-2); border:1px solid var(--line); border-radius:12px; padding:18px; display:flex; align-items:center; gap:12px; font-size:13.5px; font-weight:700; color:var(--text-dim);}
+  .cause-card .ci{font-size:20px;}
+  .charity-note{font-size:12.5px; color:var(--text-faint); margin-top:24px; text-align:center;}
+
+  #roadmap{background:linear-gradient(180deg, var(--obsidian-2), var(--obsidian));}
+  .timeline{position:relative; max-width:880px; margin:0 auto; padding-left:0;}
+  .timeline-line{
+    position:absolute; left:50%; top:0; bottom:0; width:2px;
+    background:linear-gradient(180deg, rgba(255,106,43,0.5), rgba(182,107,255,0.4)); transform:translateX(-1px);
+  }
+  .t-row{display:flex; width:100%; margin-bottom:46px; position:relative;}
+  .t-row:nth-child(odd){justify-content:flex-start;}
+  .t-row:nth-child(even){justify-content:flex-end;}
+  .t-card{width:46%; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:22px 24px; position:relative;}
+  .t-row:nth-child(odd) .t-card{margin-right:8%;}
+  .t-row:nth-child(even) .t-card{margin-left:8%;}
+  .t-dot{
+    position:absolute; top:24px; left:50%; transform:translateX(-50%); width:14px; height:14px; border-radius:50%;
+    background:var(--ember); box-shadow:0 0 0 4px rgba(255,106,43,0.18);
+  }
+  .t-amt{font-size:20px; font-weight:900; color:var(--ember-soft); margin-bottom:4px;}
+  .t-card h4{font-size:15px; font-weight:800; margin-bottom:10px;}
+  .t-card ul li{font-size:12.5px; color:var(--text-dim); padding:3px 0;}
+  .t-card ul li::before{content:"✦ "; color:var(--text-faint);}
+
+  .t-row.featured{justify-content:center !important; margin-bottom:54px;}
+  .t-card.featured{
+    width:80%; margin:0 !important; border-color:rgba(255,106,43,0.55);
+    box-shadow:0 0 50px -10px rgba(255,106,43,0.3); background:linear-gradient(160deg,var(--panel-2),var(--panel));
+  }
+  .featured-badge{
+    position:absolute; top:-13px; left:50%; transform:translateX(-50%);
+    background:linear-gradient(90deg,var(--ember),var(--ember-2)); color:#0a0a0a;
+    font-size:11px; font-weight:800; padding:5px 16px; border-radius:999px; letter-spacing:0.8px; white-space:nowrap;
+  }
+  .grilloff-note{font-size:13px; color:var(--text-dim); margin:8px 0 18px; line-height:1.5;}
+  .grilloff-flow{display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap;}
+  .gf-step{flex:1; min-width:120px; background:var(--panel-2); border:1px solid var(--line); border-radius:12px; padding:14px 12px; text-align:center;}
+  .gf-step .gi{font-size:20px; margin-bottom:6px;}
+  .gf-step h6{font-size:12px; font-weight:800; margin-bottom:4px;}
+  .gf-step p{font-size:11px; color:var(--text-faint); line-height:1.35;}
+  .gf-arrow{display:flex; align-items:center; justify-content:center; color:var(--ember); font-size:16px; flex:0 0 16px;}
+  .gf-stats{display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap;}
+  .gf-stat{flex:1; min-width:140px; background:var(--obsidian-2); border:1px solid var(--line); border-radius:10px; padding:10px 12px; text-align:center;}
+  .gf-stat b{display:block; font-size:13.5px; color:var(--ember-soft); font-weight:800;}
+  .gf-stat span{font-size:10px; color:var(--text-faint); letter-spacing:0.5px;}
+  .gf-demo{margin-top:20px; padding-top:18px; border-top:1px solid var(--line);}
+  .gf-demo-label{font-size:11px; font-weight:800; letter-spacing:1px; color:var(--text-faint); text-transform:uppercase; margin-bottom:14px;}
+  .gf-demo-pool{display:flex; align-items:center; gap:14px; margin-bottom:16px;}
+  .gf-contender{flex:1;}
+  .gf-contender-name{font-size:12.5px; font-weight:700; margin-bottom:6px;}
+  .gf-contender-pct{font-size:18px; font-weight:900; color:var(--ember-soft); margin-bottom:6px;}
+  .gf-bar-track{height:8px; border-radius:6px; background:var(--gunmetal); overflow:hidden;}
+  .gf-bar-fill{height:100%; background:linear-gradient(90deg,var(--ember),var(--ember-soft)); transition:width .5s ease;}
+  .gf-vs{font-size:11px; font-weight:800; color:var(--text-faint);}
+  .gf-demo-controls{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px;}
+  .gf-demo-controls input{width:90px; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:var(--obsidian-2); color:var(--text); font-size:12.5px;}
+  .gf-demo-result{font-size:12px; color:var(--text-dim); min-height:16px;}
+  .gf-reset{font-size:11px; color:var(--text-faint); text-decoration:underline; cursor:pointer;}
+
+  footer{border-top:1px solid var(--line); padding:60px 0 30px; background:var(--obsidian-2);}
+  .footer-top{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:30px; margin-bottom:36px;}
+  .footer-tag{font-size:14px; color:var(--text-dim); max-width:360px;}
+  .footer-links{display:flex; gap:34px; flex-wrap:wrap;}
+  .footer-links div h5{font-size:12px; letter-spacing:1px; color:var(--text-faint); margin-bottom:12px; text-transform:uppercase;}
+  .footer-links div a{display:block; font-size:13.5px; color:var(--text-dim); margin-bottom:8px;}
+  .footer-links div a:hover{color:var(--ember-soft);}
+  .waitlist-row{display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; padding-bottom:30px; margin-bottom:30px; border-bottom:1px solid var(--line);}
+  .waitlist-form{display:flex; gap:10px; flex-wrap:wrap;}
+  .waitlist-form input{padding:11px 14px; border-radius:8px; border:1px solid var(--line); background:var(--panel); color:var(--text); font-size:13px; min-width:220px;}
+  .waitlist-form input:focus{outline:none; border-color:var(--ember-soft);}
+  .footer-bottom{border-top:1px solid var(--line); padding-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:12px; color:var(--text-faint);}
+
+  @media (max-width:880px){
+    .nav-links{display:none;}
+    .hamburger{display:flex;}
+    .hero-inner{flex-direction:column; text-align:center;}
+    .hero-text{order:2;}
+    .hero-art{order:1; margin-bottom:10px;}
+    .hero-sub{margin:0 auto 14px;}
+    .hero-joke{margin:0 auto 30px;}
+    .hero-actions, .hero-stats{justify-content:center;}
+    .fw-container{transform:scale(0.78); margin:-40px auto 0;}
+    .app-main{grid-template-columns:1fr;}
+    .agent-grid{grid-template-columns:1fr;}
+    .product-grid{grid-template-columns:repeat(2,1fr);}
+    .mkt-grid{grid-template-columns:repeat(2,1fr);}
+    .cause-grid{grid-template-columns:1fr 1fr;}
+    .impact-counter{flex-direction:column; text-align:center;}
+    .impact-note{text-align:center;}
+    .phase-grid{flex-direction:column;}
+    .t-row, .t-row:nth-child(even){justify-content:center;}
+    .t-card, .t-row:nth-child(odd) .t-card, .t-row:nth-child(even) .t-card{width:90%; margin:0 auto;}
+    .t-card.featured{width:92%;}
+    .timeline-line{left:6%;}
+    .t-dot{left:6%;}
+    .grilloff-flow{flex-direction:column;}
+    .gf-arrow{transform:rotate(90deg);}
+    .gf-demo-pool{flex-direction:column;}
+    .gf-vs{transform:rotate(90deg);}
+  }
+  @media (max-width:560px){
+    .product-grid{grid-template-columns:1fr 1fr;}
+    .mkt-grid{grid-template-columns:1fr;}
+    .legend{grid-template-columns:1fr;}
+    .charity-top{grid-template-columns:1fr;}
+    .cause-grid{display:grid; grid-template-columns:1fr;}
+    .app-sidebar{width:50px;}
+    .app-main{padding:18px;}
+    .phase-breakdown{grid-template-columns:1fr 1fr;}
+  }
 </style>
 </head>
 <body>
@@ -128,7 +417,7 @@
 <nav>
   <div class="nav-inner">
     <div class="logo">
-      <svg class="logo-mark" viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="#14161b" stroke="#ff6a2b" stroke-width="1.5"/><path d="M20 9c4 5-3 6-1 11 1.5 3.5 6 3 6 7 0 4.5-4 7-9 7s-9-2.8-9-7c0-4 4.5-3.2 6-7 2-5-5-6-1-11" fill="none" stroke="#ffae42" stroke-width="1"/></svg>
+      <svg class="logo-mark" viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="#14161b" stroke="#ff6a2b" stroke-width="1.5"/><path d="M20 9c4 5-3 6-1 11 1.5 3.5 6 3 6 7 0 4.5-4 7-9 7s-9-2.5-9-7c0-3 2-4.5 3-7 1-2.3-1.5-3.7 0-6 1-1.7 3-3 3-3z" fill="#ff6a2b"/></svg>
       <span>DAD</span>
     </div>
     <div class="nav-links">
@@ -179,26 +468,708 @@
     </div>
     <div class="hero-art">
       <div class="hero-art-glow"></div>
-      <!-- Local images in docs/ — use relative paths from index.html which lives in docs/ -->
-      <img class="mascot mascot-photo" src="IMG_0037.jpeg" alt="Dad mascot">
+      <img class="mascot mascot-photo" src="https://cdn.dexscreener.com/cms/images/SU2JkvChXhSk6QPf?width=512&height=512&fit=crop&quality=95&format=auto" alt="Dad mascot">
     </div>
   </div>
 </section>
 
-<!-- (remaining HTML sections omitted for brevity but preserved in original file) -->
-
-<footer style="padding:40px 0;color:var(--text-dim);text-align:center">
+<!-- ENGINE: Flywheel + Live Impact, merged, right after Hero -->
+<section id="engine" class="section">
   <div class="wrap">
-    <div style="display:flex;align-items:center;gap:12px;justify-content:center;">
-      <img src="IMG_0030.jpeg" alt="avatar" style="width:58px;height:58px;border-radius:10px;object-fit:cover;">
-      <div style="text-align:left">
-        <div style="font-weight:800">DAD</div>
-        <div style="color:var(--text-dim);font-size:13px">Community project — not financial advice.</div>
+    <div class="reveal center" style="max-width:680px; margin-bottom:10px;">
+      <span class="section-tag">Proof Of Work</span>
+      <h2 class="section-title">Watch The Engine Turn</h2>
+      <p class="section-sub center">Not a static roadmap graphic. The flywheel below lights up and the treasury fills in, live, driven by real fee activity.</p>
+    </div>
+
+    <div class="fw-container reveal">
+      <div class="fw-sweep"></div>
+      <div class="fw-ring"></div>
+      <div class="fw-hub"><div class="flame">🔥</div><span>SELF-IMPROVING<br>ECOSYSTEM</span></div>
+      <div class="fw-item" style="--i:0"><div class="fw-node"><div class="fw-circle">1</div><p>Trend<br>Discovery</p></div></div>
+      <div class="fw-item" style="--i:1"><div class="fw-node"><div class="fw-circle">2</div><p>Opportunity<br>Analysis</p></div></div>
+      <div class="fw-item" style="--i:2"><div class="fw-node"><div class="fw-circle">3</div><p>Agent<br>Research</p></div></div>
+      <div class="fw-item" style="--i:3"><div class="fw-node"><div class="fw-circle">4</div><p>Community<br>Vote</p></div></div>
+      <div class="fw-item" style="--i:4"><div class="fw-node"><div class="fw-circle">5</div><p>Prototype</p></div></div>
+      <div class="fw-item" style="--i:5"><div class="fw-node"><div class="fw-circle">6</div><p>Launch</p></div></div>
+      <div class="fw-item" style="--i:6"><div class="fw-node"><div class="fw-circle">7</div><p>Revenue</p></div></div>
+      <div class="fw-item" style="--i:7"><div class="fw-node"><div class="fw-circle">8</div><p>Treasury<br>Growth</p></div></div>
+      <div class="fw-item" style="--i:8"><div class="fw-node"><div class="fw-circle">9</div><p>Agent<br>Improvement</p></div></div>
+    </div>
+
+    <div class="impact-counter reveal">
+      <div>
+        <div class="impact-counter-label">Fees Generated</div>
+        <div class="impact-counter-value" id="feesValue">$15,210</div>
+        <div class="next-milestone" id="nextMilestone">Next Roadmap Unlock: $100K — Foundation</div>
+      </div>
+      <div class="impact-live"><span class="ld"></span> LIVE SIMULATION</div>
+      <div class="impact-note">Every circle above lights up as this climbs. Point it at a real fee feed anytime and it tracks the actual number instead.</div>
+    </div>
+
+    <div class="phase-grid reveal">
+      <div class="phase-card" id="phase1Card">
+        <div class="phase-header"><span class="pe">🖥️</span><h4>Phase 1 — Tech Company</h4></div>
+        <div class="phase-target">Target: $25,000 in fees</div>
+        <div class="phase-progress-label"><span>Progress</span><span id="phase1Pct">0%</span></div>
+        <div class="progress-track"><div class="progress-fill" id="phase1Bar"></div></div>
+        <div class="phase-breakdown">
+          <div class="phase-item"><b id="p1Servers">$0</b><span>SERVERS &amp; HOSTING</span></div>
+          <div class="phase-item"><b id="p1Agents">$0</b><span>AGENT COMPUTE</span></div>
+          <div class="phase-item"><b id="p1Soft">$0</b><span>SOFTWARE &amp; TOOLING</span></div>
+        </div>
+        <ul class="phase-unlocks" id="p1Unlocks">
+          <li data-at="5000">🔒 $5K — First server cluster online</li>
+          <li data-at="15000">🔒 $15K — 3 agents running 24/7</li>
+          <li data-at="25000">🔒 $25K — Tech company fully operational</li>
+        </ul>
+      </div>
+
+      <div class="phase-arrow-row">→</div>
+
+      <div class="phase-card locked" id="phase2Card">
+        <div class="lock-overlay" id="phase2Lock">🔒 Unlocks once Phase 1 — Tech Company is fully funded</div>
+        <div class="phase-header"><span class="pe">🏗️</span><h4>Phase 2 — Physical Company</h4></div>
+        <div class="phase-target">Target: next $50,000 in fees</div>
+        <div class="phase-progress-label"><span>Progress</span><span id="phase2Pct">0%</span></div>
+        <div class="progress-track"><div class="progress-fill" id="phase2Bar"></div></div>
+        <div class="phase-breakdown">
+          <div class="phase-item"><b id="p2Mfg">$0</b><span>MANUFACTURING SETUP</span></div>
+          <div class="phase-item"><b id="p2Batch">$0</b><span>FIRST PRODUCT RUN</span></div>
+          <div class="phase-item"><b id="p2Pack">$0</b><span>PACKAGING &amp; BRAND</span></div>
+        </div>
+        <ul class="phase-unlocks" id="p2Unlocks">
+          <li data-at="35000">🔒 $35K — Manufacturing partner secured</li>
+          <li data-at="55000">🔒 $55K — First product batch produced</li>
+          <li data-at="75000">🔒 $75K — Physical company fully operational</li>
+        </ul>
       </div>
     </div>
-    <div style="margin-top:18px">© 2026 DAD</div>
+  </div>
+</section>
+
+<!-- TOKEN -->
+<section id="token" class="section">
+  <div class="wrap">
+    <div class="reveal" style="max-width:640px; margin-bottom:50px;">
+      <span class="section-tag">Tokenomics</span>
+      <h2 class="section-title">A Token With a Job (Unlike Some Dads)</h2>
+      <p class="section-sub">$DAD isn't built on speculation alone — every major ecosystem action consumes tokens, and treasury inflows are deployed back into the system as a productive asset.</p>
+    </div>
+    <div class="token-grid reveal">
+      <div class="token-features">
+        <ul>
+          <li><span class="check">✓</span><span><b>Recurring utility</b> — agent creation, NFT evolutions, and marketplace fees all run through $DAD.</span></li>
+          <li><span class="check">✓</span><span><b>Deflationary burns</b> — a portion of every product sale and marketplace fee is permanently burned.</span></li>
+          <li><span class="check">✓</span><span><b>Buyback engine</b> — treasury revenue programmatically buys back and burns supply.</span></li>
+          <li><span class="check">✓</span><span><b>Governance rights</b> — holders vote on which trend-discovered opportunities get built next.</span></li>
+          <li><span class="check">✓</span><span><b>Productive treasury</b> — capital is continuously redeployed into AI infra, products, and growth — never idle.</span></li>
+        </ul>
+      </div>
+      <div class="donut-wrap">
+        <div class="donut-chart-area">
+          <canvas id="donut" width="240" height="240"></canvas>
+          <div class="donut-center"><b>100%</b><span>TREASURY</span></div>
+        </div>
+        <div class="legend" id="legend"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APP PREVIEW -->
+<section id="app-preview" class="section">
+  <div class="wrap">
+    <div class="reveal center" style="max-width:640px; margin-bottom:46px;">
+      <span class="section-tag">Product Preview</span>
+      <h2 class="section-title">One Dashboard. Zero Excuses.</h2>
+      <p class="section-sub center">Wallet, agents, treasury, and NFT progress — all in a single command center. This is what holders actually open every day.</p>
+    </div>
+    <div class="app-preview-wrap reveal">
+      <div class="app-frame">
+        <div class="app-topbar">
+          <span class="app-dot r"></span><span class="app-dot y"></span><span class="app-dot g"></span>
+          <span class="app-title">DAD — Command Center</span>
+        </div>
+        <div class="app-body">
+          <div class="app-sidebar">
+            <div class="si active">💼</div>
+            <div class="si">🤖</div>
+            <div class="si">🏦</div>
+            <div class="si">🔥</div>
+            <div class="si">🛒</div>
+          </div>
+          <div class="app-main">
+            <div class="app-card">
+              <h5>Wallet</h5>
+              <div class="wallet-balance">48,210 $DAD</div>
+              <div class="wallet-usd">≈ $2,184.40 USD (demo data)</div>
+              <div class="wallet-actions"><button>Send</button><button>Receive</button><button>Swap</button></div>
+            </div>
+            <div class="app-card">
+              <h5>Treasury Health</h5>
+              <div class="treasury-mini-chart">
+                <span style="height:40%;"></span><span style="height:55%;"></span><span style="height:48%;"></span>
+                <span style="height:70%;"></span><span style="height:62%;"></span><span style="height:85%;"></span>
+                <span style="height:78%;"></span><span style="height:95%;"></span>
+              </div>
+              <div class="wallet-usd">Up 12.4% this cycle (demo data)</div>
+            </div>
+            <div class="app-card">
+              <h5>Active Agents</h5>
+              <div class="agent-status-row"><span><span class="status-dot"></span>SEO Agent</span><span>Publishing</span></div>
+              <div class="agent-status-row"><span><span class="status-dot"></span>Trend Agent</span><span>Scanning</span></div>
+              <div class="agent-status-row"><span><span class="status-dot"></span>Ops Agent</span><span>Idle</span></div>
+            </div>
+            <div class="app-card">
+              <h5>Your NFT Progress</h5>
+              <div class="nft-mini">
+                <div class="nft-mini-badge">🔥</div>
+                <div><b style="font-size:13.5px;">Real Dad</b><div style="font-size:11px;color:var(--text-faint);">Level 3 of 6</div></div>
+              </div>
+              <div class="progress-track"><div class="progress-fill" style="width:64%;"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NFTS -->
+<section id="nfts" class="section">
+  <div class="wrap">
+    <div class="reveal" style="max-width:640px; margin-bottom:40px;">
+      <span class="section-tag">Dynamic NFTs</span>
+      <h2 class="section-title">Your Dad Finally Levels Up</h2>
+      <p class="section-sub">NFTs level up based on real contribution — health goals hit, businesses launched, community participation, charity given. Six stages from rookie to legend. Tap a card.</p>
+    </div>
+    <div class="ladder reveal">
+      <div class="nft-card"><span class="lvl">LV 1</span><div class="nft-badge" style="background:linear-gradient(160deg,#3a3d44,#23252b);">🍺</div><h4>Dad In Training</h4><p>Just joined the cookout. Holding, learning, showing up.</p></div>
+      <div class="ladder-arrow">→</div>
+      <div class="nft-card"><span class="lvl">LV 2</span><div class="nft-badge" style="background:linear-gradient(160deg,#4a3a2c,#2b231b);">🌭</div><h4>Backyard Dad</h4><p>First quests done. Active in the community, badge not yet earned.</p></div>
+      <div class="ladder-arrow">→</div>
+      <div class="nft-card"><span class="lvl">LV 3</span><div class="nft-badge" style="background:linear-gradient(160deg,#5c3a1f,#2b1e10); box-shadow:0 0 18px rgba(255,106,43,0.25);">🔥</div><h4>Real Dad</h4><p>Consistent contributor. Fitness, finance, or business goals in motion.</p></div>
+      <div class="ladder-arrow">→</div>
+      <div class="nft-card"><span class="lvl">LV 4</span><div class="nft-badge" style="background:linear-gradient(160deg,#6b3318,#341a0c); box-shadow:0 0 22px rgba(255,90,30,0.35);">🥩</div><h4>Master Dad</h4><p>Launched something real — a product, a habit, a side business.</p></div>
+      <div class="ladder-arrow">→</div>
+      <div class="nft-card"><span class="lvl">LV 5</span><div class="nft-badge" style="background:linear-gradient(160deg,#7a2f12,#3a1505); box-shadow:0 0 26px rgba(255,61,0,0.4);">🏆</div><h4>Neighborhood Legend</h4><p>Top-tier reputation. Mentoring others, running agents, giving back.</p></div>
+      <div class="ladder-arrow">→</div>
+      <div class="nft-card"><span class="lvl">LV 6</span><div class="nft-badge" style="background:linear-gradient(160deg,#a3470d,#4a1c05); box-shadow:0 0 34px rgba(255,106,43,0.55);">👑</div><h4>Ultimate Dad</h4><p>The full transformation. Builder, leader, provider — fully realized.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AGENTS -->
+<section id="agents" class="section">
+  <div class="wrap">
+    <div class="reveal" style="max-width:640px; margin-bottom:50px;">
+      <span class="section-tag">AI Agent Network</span>
+      <h2 class="section-title">An Agent That Actually Listens To You</h2>
+      <p class="section-sub">Agents start simple and grow more capable as the ecosystem matures — eventually running real operations on your behalf.</p>
+    </div>
+    <div class="agent-grid reveal">
+      <div class="agent-card tier1">
+        <div class="tier-label">Tier 1</div>
+        <div class="tier-icon">💬</div>
+        <h3>Starter Agent</h3>
+        <ul><li>Conversational chat</li><li>Content generation</li><li>Lightweight research</li><li>Meme creation</li></ul>
+      </div>
+      <div class="agent-card tier2">
+        <div class="tier-label">Tier 2</div>
+        <div class="tier-icon">📊</div>
+        <h3>Operator Agent</h3>
+        <ul><li>Market & product analysis</li><li>SEO optimization</li><li>Business planning</li><li>Ecommerce management</li><li>Customer & community support</li></ul>
+      </div>
+      <div class="agent-card tier3">
+        <div class="tier-label">Tier 3</div>
+        <div class="tier-icon">⚙️</div>
+        <h3>Autonomous Agent</h3>
+        <ul><li>Hires other agents</li><li>Manages live businesses</li><li>Launches new products</li><li>Runs marketing campaigns</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRENDS / SEO -->
+<section id="trends" class="section">
+  <div class="wrap">
+    <div class="reveal" style="max-width:640px; margin-bottom:50px;">
+      <span class="section-tag">Intelligence Layer</span>
+      <h2 class="section-title">Always Working, Never "In A Meeting"</h2>
+    </div>
+    <div class="trend-grid reveal">
+      <div class="trend-col">
+        <h3>🔎 Trend Discovery Engine</h3>
+        <div class="pill-row">
+          <span class="pill">Google Trends</span><span class="pill">Reddit</span><span class="pill">YouTube</span>
+          <span class="pill">TikTok</span><span class="pill">X</span><span class="pill">Amazon</span>
+          <span class="pill">Etsy</span><span class="pill">Shopify</span><span class="pill">Product Hunt</span>
+        </div>
+        <ul><li>Opportunity & market scoring</li><li>Competition analysis</li><li>Profitability modeling</li><li>Manufacturing feasibility</li><li>Community-fit scoring</li></ul>
+      </div>
+      <div class="trend-col">
+        <h3>📈 SEO + GEO Engine</h3>
+        <div class="pill-row">
+          <span class="pill">Articles</span><span class="pill">Guides</span><span class="pill">Product Pages</span>
+          <span class="pill">Comparisons</span><span class="pill">FAQs</span><span class="pill">Research Reports</span>
+        </div>
+        <ul><li>Optimized for Google & Bing</li><li>Optimized for AI / LLM discovery</li><li>Optimized for generative search</li><li>Automated internal linking</li><li>Continuous technical SEO</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" class="section">
+  <div class="wrap">
+    <div class="reveal" style="max-width:640px; margin-bottom:46px;">
+      <span class="section-tag">Physical Product Empire</span>
+      <h2 class="section-title">From Dad Jokes To Actual Paychecks</h2>
+    </div>
+    <div class="product-grid reveal">
+      <div class="product-card"><div class="pi">🌶️</div><div><h4>Seasonings</h4><p>Signature rubs & blends</p></div></div>
+      <div class="product-card"><div class="pi">🍯</div><div><h4>Sauces</h4><p>BBQ & finishing sauces</p></div></div>
+      <div class="product-card"><div class="pi">👕</div><div><h4>Apparel</h4><p>Aprons, tees, hats</p></div></div>
+      <div class="product-card"><div class="pi">🔧</div><div><h4>Tools</h4><p>Outdoor tools & accessories</p></div></div>
+      <div class="product-card"><div class="pi">⛺</div><div><h4>Outdoor Gear</h4><p>Backyard & camp equipment</p></div></div>
+      <div class="product-card"><div class="pi">🏠</div><div><h4>Home Goods</h4><p>Kitchen & patio essentials</p></div></div>
+      <div class="product-card"><div class="pi">💪</div><div><h4>Fitness</h4><p>Dad-bod-to-dad-strong gear</p></div></div>
+      <div class="product-card"><div class="pi">☕</div><div><h4>Coffee</h4><p>Roasts for early starts</p></div></div>
+      <div class="product-card"><div class="pi">🔥</div><div><h4>Lifestyle</h4><p>Everything-else-Dad</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARKETPLACE -->
+<section id="marketplace" class="section">
+  <div class="wrap">
+    <div class="reveal" style="max-width:640px; margin-bottom:40px;">
+      <span class="section-tag">Marketplace</span>
+      <h2 class="section-title">Trade Everything (Even Dad's Old Tools)</h2>
+      <p class="section-sub">Agents, NFTs, digital workflows, and physical goods all move through one marketplace — with fees that flow straight back into the treasury and burn.</p>
+    </div>
+    <div class="mkt-grid reveal">
+      <div class="mkt-card"><div class="mi">🤖</div><h4>Agents</h4></div>
+      <div class="mkt-card"><div class="mi">🖼️</div><h4>NFTs</h4></div>
+      <div class="mkt-card"><div class="mi">💾</div><h4>Digital Products</h4></div>
+      <div class="mkt-card"><div class="mi">📦</div><h4>Physical Products</h4></div>
+      <div class="mkt-card"><div class="mi">🛠️</div><h4>Services</h4></div>
+      <div class="mkt-card"><div class="mi">📋</div><h4>Business Templates</h4></div>
+      <div class="mkt-card"><div class="mi">⚙️</div><h4>AI Workflows</h4></div>
+      <div class="mkt-card"><div class="mi">⭐</div><h4>Reputation-Gated Drops</h4></div>
+    </div>
+    <div class="mkt-stats reveal">
+      <div class="mkt-stat"><b>2.5%</b><span>MARKETPLACE FEE</span></div>
+      <div class="mkt-stat"><b>50 / 50</b><span>FEE SPLIT — TREASURY / BURN</span></div>
+      <div class="mkt-stat"><b>REPUTATION</b><span>SCORED SELLERS, NOT ANONYMOUS LISTINGS</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CHARITY -->
+<section id="charity" class="section">
+  <div class="wrap">
+    <div class="reveal" style="max-width:640px; margin-bottom:46px;">
+      <span class="section-tag">Dad Gives</span>
+      <h2 class="section-title">Profit That Actually Shows Up</h2>
+      <p class="section-sub">A transparent, on-chain-tracked charity arm funded directly by product revenue, treasury allocation, and community campaigns.</p>
+    </div>
+    <div class="charity-top reveal">
+      <div class="charity-stat"><div class="amt" id="donatedAmt">$0</div><div class="lbl">DONATED TO DATE (DEMO DATA)</div></div>
+      <div class="charity-stat"><div class="amt">10%</div><div class="lbl">OF TREASURY ALLOCATION</div></div>
+      <div class="charity-stat"><div class="amt">3</div><div class="lbl">FUNDING SOURCES</div></div>
+    </div>
+    <div class="cause-grid reveal">
+      <div class="cause-card"><span class="ci">🍞</span> Food Banks</div>
+      <div class="cause-card"><span class="ci">🎖️</span> Veterans</div>
+      <div class="cause-card"><span class="ci">👨‍👧</span> Single Parents</div>
+      <div class="cause-card"><span class="ci">🏥</span> Children's Hospitals</div>
+      <div class="cause-card"><span class="ci">📚</span> Education</div>
+      <div class="cause-card"><span class="ci">🌪️</span> Disaster Relief</div>
+    </div>
+    <p class="charity-note">Every distribution is published with verification and on-chain proof of impact. Figures above are illustrative placeholders pending launch.</p>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap" class="section">
+  <div class="wrap">
+    <div class="reveal center" style="max-width:640px; margin-bottom:50px;">
+      <span class="section-tag">Milestone Evolution</span>
+      <h2 class="section-title">From $100K To Retirement (For Real, This Time)</h2>
+      <p class="section-sub center">Every milestone unlocks new agent capability, new products, and new treasury power — the ecosystem gets smarter as it grows.</p>
+    </div>
+    <div class="timeline reveal">
+      <div class="timeline-line"></div>
+
+      <div class="t-row"><div class="t-card"><div class="t-dot"></div><div class="t-amt">$100K</div><h4>Foundation</h4>
+        <ul><li>Tier 1 agents go live</li><li>First NFT collection mints</li><li>Trend engine MVP launches</li></ul></div></div>
+
+      <div class="t-row"><div class="t-card"><div class="t-dot"></div><div class="t-amt">$500K</div><h4>First Products</h4>
+        <ul><li>Seasonings & apparel launch</li><li>Buyback & burn activated</li><li>Charity wallet opens</li></ul></div></div>
+
+      <div class="t-row"><div class="t-card"><div class="t-dot"></div><div class="t-amt">$1M</div><h4>Agent Upgrade</h4>
+        <ul><li>Tier 2 Operator agents unlock</li><li>SEO/GEO engine goes autonomous</li><li>Marketplace beta opens</li></ul></div></div>
+
+      <div class="t-row featured">
+        <div class="t-card featured">
+          <div class="featured-badge">🎮 NEW MINI-GAME</div>
+          <div class="t-dot"></div>
+          <div class="t-amt">$5M</div>
+          <h4>The Dad Off Launches</h4>
+          <p class="grilloff-note">A stake-to-vote prediction game goes live inside the app. Each cycle, the community nominates contenders — everyone else bets $DAD on who wins, and that bet doubles as their vote.</p>
+          <div class="gf-stats">
+            <div class="gf-stat"><b>50 $DAD</b><span>MIN STAKE TO VOTE</span></div>
+            <div class="gf-stat"><b>7 DAYS</b><span>ROUND LENGTH</span></div>
+            <div class="gf-stat"><b>PROPORTIONAL</b><span>PAYOUT TO STAKE SIZE</span></div>
+          </div>
+          <div class="grilloff-flow">
+            <div class="gf-step"><div class="gi">🏷️</div><h6>Nominate</h6><p>Contenders are put forward by the community each cycle.</p></div>
+            <div class="gf-arrow">→</div>
+            <div class="gf-step"><div class="gi">🔒</div><h6>Stake & Vote</h6><p>A minimum stake is required to cast a verified vote.</p></div>
+            <div class="gf-arrow">→</div>
+            <div class="gf-step"><div class="gi">⚔️</div><h6>Compete</h6><p>Contenders complete real, on-chain-tracked challenges.</p></div>
+            <div class="gf-arrow">→</div>
+            <div class="gf-step"><div class="gi">💰</div><h6>Payout</h6><p>Winning pool splits to correct voters instantly.</p></div>
+          </div>
+          <ul>
+            <li>Minimum stake required to cast a verified vote — prevents free, sybil voting</li>
+            <li>Pari-mutuel reward pool — losing stakes fund the winners' payout</li>
+            <li>Settlement is fully peer-to-peer via on-chain escrow, no off-chain trust needed</li>
+            <li>Top predictors climb a public leaderboard and earn NFT progress</li>
+          </ul>
+          <div class="gf-demo">
+            <div class="gf-demo-label">Try It — Demo Vote (Not Real Funds)</div>
+            <div class="gf-demo-pool">
+              <div class="gf-contender">
+                <div class="gf-contender-name">👨‍🍳 Gary "Real Dad" T.</div>
+                <div class="gf-contender-pct" id="garyPct">50%</div>
+                <div class="gf-bar-track"><div class="gf-bar-fill" id="garyFill" style="width:50%;"></div></div>
+              </div>
+              <div class="gf-vs">VS</div>
+              <div class="gf-contender">
+                <div class="gf-contender-name">🔥 Tony "Master Dad" R.</div>
+                <div class="gf-contender-pct" id="tonyPct">50%</div>
+                <div class="gf-bar-track"><div class="gf-bar-fill" id="tonyFill" style="width:50%;"></div></div>
+              </div>
+            </div>
+            <div class="gf-demo-controls">
+              <input type="number" id="gfStake" value="50" min="50" step="10">
+              <span style="font-size:12px;color:var(--text-faint);">$DAD stake</span>
+              <button class="btn btn-outline" id="voteGary" style="padding:8px 14px;font-size:12px;">Vote Gary</button>
+              <button class="btn btn-outline" id="voteTony" style="padding:8px 14px;font-size:12px;">Vote Tony</button>
+              <span class="gf-reset" id="gfReset">Reset</span>
+            </div>
+            <div class="gf-demo-result" id="gfResult"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-row"><div class="t-card"><div class="t-dot"></div><div class="t-amt">$10M</div><h4>Scaling Revenue</h4>
+        <ul><li>Multiple live product lines</li><li>Dad Gives expands to 6 causes</li><li>Agent reputation system live</li></ul></div></div>
+
+      <div class="t-row"><div class="t-card"><div class="t-dot"></div><div class="t-amt">$25M</div><h4>Tier 3 Unlocked</h4>
+        <ul><li>Autonomous agents manage stores</li><li>Agent-to-agent marketplace</li><li>Treasury reserve hardens</li></ul></div></div>
+
+      <div class="t-row"><div class="t-card"><div class="t-dot"></div><div class="t-amt">$50M</div><h4>Venture Studio</h4>
+        <ul><li>Full business incubation pipeline</li><li>Cross-category product empire</li><li>Global charity partnerships</li></ul></div></div>
+
+      <div class="t-row"><div class="t-card"><div class="t-dot"></div><div class="t-amt">$100M</div><h4>Ultimate Ecosystem</h4>
+        <ul><li>Fully autonomous venture creation</li><li>Self-sustaining treasury flywheel</li><li>Decentralized governance maturity</li></ul></div></div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="logo" style="margin-bottom:14px;">
+          <svg class="logo-mark" viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="#14161b" stroke="#ff6a2b" stroke-width="1.5"/><path d="M20 9c4 5-3 6-1 11 1.5 3.5 6 3 6 7 0 4.5-4 7-9 7s-9-2.5-9-7c0-3 2-4.5 3-7 1-2.3-1.5-3.7 0-6 1-1.7 3-3 3-3z" fill="#ff6a2b"/></svg>
+          <span>DAD</span>
+        </div>
+        <p class="footer-tag">Build Yourself. Build Your Family. Build Your Future. A community-driven ecosystem that started as a meme and is building toward something real.</p>
+      </div>
+      <div class="footer-links">
+        <div><h5>Ecosystem</h5><a href="#engine">How It Works</a><a href="#token">Token</a><a href="#nfts">NFTs</a></div>
+        <div><h5>Build</h5><a href="#agents">Agents</a><a href="#marketplace">Marketplace</a><a href="#roadmap">Roadmap</a></div>
+        <div><h5>Community</h5><a href="#">X / Twitter</a><a href="#">Telegram</a><a href="#">Whitepaper</a></div>
+      </div>
+    </div>
+
+    <div class="waitlist-row reveal">
+      <div>
+        <h4 style="font-size:15px;font-weight:800;margin-bottom:4px;">Get In Before The Presale</h4>
+        <p style="font-size:12.5px;color:var(--text-faint);">No spam. Just a heads up when $DAD opens.</p>
+      </div>
+      <div class="waitlist-form">
+        <input type="email" id="waitlistEmail" placeholder="dad@example.com">
+        <button class="btn btn-primary" id="waitlistBtn" style="padding:10px 18px;">Notify Me</button>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 DAD. Community project — not financial advice. DYOR.</span>
+      <span>🔥 Powered by the cookout.</span>
+    </div>
   </div>
 </footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  let toastTimer;
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=> t.classList.remove('show'), 3400);
+  }
+
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  const canvas = document.getElementById('ember-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  function sizeCanvas(){
+    const hero = document.getElementById('hero');
+    canvas.width = hero.offsetWidth;
+    canvas.height = hero.offsetHeight;
+    const count = Math.min(70, Math.floor((canvas.width*canvas.height)/16000));
+    particles = Array.from({length:count}, () => makeParticle(true));
+  }
+  function makeParticle(randomY){
+    return {
+      x: Math.random()*canvas.width,
+      y: randomY ? Math.random()*canvas.height : canvas.height + 20,
+      r: 1 + Math.random()*2.6,
+      speed: 0.3 + Math.random()*1.1,
+      sway: Math.random()*Math.PI*2,
+      swaySpeed: 0.01 + Math.random()*0.02,
+      opacity: 0.3 + Math.random()*0.5,
+      color: Math.random() > 0.5 ? '255,106,43' : '255,174,66'
+    };
+  }
+  function animateParticles(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p => {
+      p.y -= p.speed;
+      p.sway += p.swaySpeed;
+      const x = p.x + Math.sin(p.sway)*8;
+      ctx.beginPath();
+      ctx.arc(x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(${p.color},${p.opacity})`;
+      ctx.fill();
+      if (p.y < -10){ Object.assign(p, makeParticle(false)); }
+    });
+    requestAnimationFrame(animateParticles);
+  }
+  window.addEventListener('resize', sizeCanvas);
+  sizeCanvas();
+  animateParticles();
+
+  const tokenData = [
+    {label:'Product Expansion', pct:35, color:'#ff6a2b'},
+    {label:'AI Infrastructure', pct:20, color:'#3df3ff'},
+    {label:'Treasury Reserve', pct:15, color:'#b66bff'},
+    {label:'Charity', pct:10, color:'#ffae42'},
+    {label:'Buyback & Burn', pct:10, color:'#ff3d00'},
+    {label:'R&D', pct:5, color:'#6bdc8a'},
+    {label:'Community Incentives', pct:5, color:'#f5f2ee'}
+  ];
+  const legendEl = document.getElementById('legend');
+  tokenData.forEach(d => {
+    const item = document.createElement('div');
+    item.className = 'legend-item';
+    item.innerHTML = `<span class="legend-dot" style="background:${d.color}"></span>${d.label}<b>${d.pct}%</b>`;
+    legendEl.appendChild(item);
+  });
+  const donutCanvas = document.getElementById('donut');
+  const dctx = donutCanvas.getContext('2d');
+  const dcx = 120, dcy = 120, dradius = 95, dlineWidth = 30;
+  let donutDrawn = false;
+  function drawDonut(progress){
+    dctx.clearRect(0,0,240,240);
+    let start = -Math.PI/2;
+    tokenData.forEach(d => {
+      const angle = (d.pct/100) * Math.PI*2 * progress;
+      dctx.beginPath();
+      dctx.arc(dcx, dcy, dradius, start, start+angle);
+      dctx.lineWidth = dlineWidth;
+      dctx.strokeStyle = d.color;
+      dctx.lineCap = 'butt';
+      dctx.stroke();
+      start += angle;
+    });
+  }
+  function animateDonut(){
+    const duration = 1100;
+    const t0 = performance.now();
+    function step(now){
+      const t = Math.min(1, (now-t0)/duration);
+      const eased = 1 - Math.pow(1-t, 3);
+      drawDonut(eased);
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  const tokenSection = document.getElementById('token');
+  const tokenObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting && !donutDrawn){ donutDrawn = true; animateDonut(); } });
+  }, { threshold: 0.3 });
+  tokenObserver.observe(tokenSection);
+
+  let counterDone = false;
+  const donatedEl = document.getElementById('donatedAmt');
+  function animateCounter(target, duration){
+    const t0 = performance.now();
+    function step(now){
+      const t = Math.min(1, (now-t0)/duration);
+      const eased = 1 - Math.pow(1-t, 3);
+      const val = Math.floor(target*eased);
+      donatedEl.textContent = '$' + val.toLocaleString();
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  const charitySection = document.getElementById('charity');
+  const charityObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting && !counterDone){ counterDone = true; animateCounter(128400, 1300); } });
+  }, { threshold: 0.3 });
+  charityObserver.observe(charitySection);
+
+  function buyClick(){
+    showToast('🔥 Presale opens once Phase 1 — Tech Company is funded. Drop your email below to get in early.');
+    document.querySelector('.waitlist-row')?.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+  document.querySelectorAll('#buyBtnNav, #buyBtnHero').forEach(b => b.addEventListener('click', (e)=>{ e.preventDefault(); buyClick(); }));
+
+  document.querySelectorAll('.wallet-actions button').forEach(b => b.addEventListener('click', ()=> showToast('🔒 Demo preview — full wallet control unlocks in the live app.')));
+
+  const nftMsgs = [
+    "🍺 Still figuring out the basics. We've all been there.",
+    "🌭 Hot dogs today. Steaks tomorrow.",
+    "🔥 The neighbors can smell the upgrade.",
+    "🥩 Now taking orders from people who aren't your kids.",
+    "🏆 Random people wave at you now. Earned.",
+    "👑 You said you'd build something real. You did."
+  ];
+  document.querySelectorAll('.nft-card').forEach((card,i)=> card.addEventListener('click', ()=> showToast(nftMsgs[i])));
+
+  function joinWaitlist(){
+    const emailInput = document.getElementById('waitlistEmail');
+    const val = emailInput.value.trim();
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!re.test(val)){ showToast("⚠️ That doesn't look like a real email — try again."); return; }
+    showToast("🔥 You're on the list. We'll text your inbox, not your wife.");
+    emailInput.value = '';
+  }
+  document.getElementById('waitlistBtn').addEventListener('click', joinWaitlist);
+
+  let poolGary = 500, poolTony = 500;
+  function renderPools(){
+    const total = poolGary + poolTony;
+    const gPct = Math.round((poolGary/total)*100);
+    const tPct = 100 - gPct;
+    document.getElementById('garyPct').textContent = gPct + '%';
+    document.getElementById('tonyPct').textContent = tPct + '%';
+    document.getElementById('garyFill').style.width = gPct + '%';
+    document.getElementById('tonyFill').style.width = tPct + '%';
+  }
+  function castVote(side){
+    const stake = parseInt(document.getElementById('gfStake').value, 10);
+    const resultEl = document.getElementById('gfResult');
+    if(!stake || stake < 50){ resultEl.textContent = '⚠️ Minimum stake is 50 $DAD — gotta have skin in the game.'; return; }
+    if(side === 'gary') poolGary += stake; else poolTony += stake;
+    renderPools();
+    const yourSide = side === 'gary' ? poolGary : poolTony;
+    const oddsShare = ((stake/yourSide)*100).toFixed(1);
+    resultEl.textContent = `✅ Staked ${stake} $DAD on ${side === 'gary' ? 'Gary' : 'Tony'}. If they win, you'd own roughly ${oddsShare}% of that side's payout pool.`;
+  }
+  document.getElementById('voteGary').addEventListener('click', ()=> castVote('gary'));
+  document.getElementById('voteTony').addEventListener('click', ()=> castVote('tony'));
+  document.getElementById('gfReset').addEventListener('click', ()=>{
+    poolGary = 500; poolTony = 500; renderPools();
+    document.getElementById('gfResult').textContent = 'Demo reset.';
+  });
+  renderPools();
+
+  let feesTotal = 15210;
+  const PHASE1_TARGET = 25000;
+  const PHASE2_TARGET = 75000;
+  const fwCircles = document.querySelectorAll('.fw-circle');
+  const milestones = [
+    [100000,'Foundation'], [500000,'First Products'], [1000000,'Agent Upgrade'],
+    [5000000,'The Dad Off Launches'], [10000000,'Scaling Revenue'],
+    [25000000,'Tier 3 Unlocked'], [50000000,'Venture Studio'], [100000000,'Ultimate Ecosystem']
+  ];
+  function fmtMoney(n){ return n >= 1000000 ? '$' + (n/1000000) + 'M' : '$' + (n/1000) + 'K'; }
+
+  function renderImpact(){
+    document.getElementById('feesValue').textContent = '$' + Math.floor(feesTotal).toLocaleString();
+
+    const fwStep = PHASE2_TARGET / fwCircles.length;
+    fwCircles.forEach((c,i)=>{ if(feesTotal >= fwStep*(i+1)) c.classList.add('active'); });
+
+    const next = milestones.find(m => feesTotal < m[0]);
+    document.getElementById('nextMilestone').textContent = next
+      ? `Next Roadmap Unlock: ${fmtMoney(next[0])} — ${next[1]}`
+      : 'All roadmap milestones reached.';
+
+    const p1 = Math.min(feesTotal, PHASE1_TARGET);
+    const p1Pct = Math.round((p1/PHASE1_TARGET)*100);
+    document.getElementById('phase1Pct').textContent = p1Pct + '%';
+    document.getElementById('phase1Bar').style.width = p1Pct + '%';
+    document.getElementById('p1Servers').textContent = '$' + Math.floor(p1*0.30).toLocaleString();
+    document.getElementById('p1Agents').textContent = '$' + Math.floor(p1*0.40).toLocaleString();
+    document.getElementById('p1Soft').textContent = '$' + Math.floor(p1*0.30).toLocaleString();
+    document.querySelectorAll('#p1Unlocks li').forEach(li => {
+      const at = parseInt(li.dataset.at, 10);
+      if(feesTotal >= at && !li.classList.contains('done')){ li.classList.add('done'); li.textContent = li.textContent.replace('🔒','✅'); }
+    });
+
+    const phase1Done = feesTotal >= PHASE1_TARGET;
+    const phase2Card = document.getElementById('phase2Card');
+    const phase2Lock = document.getElementById('phase2Lock');
+    if(phase1Done){ phase2Card.classList.remove('locked'); phase2Lock.classList.add('hidden'); }
+
+    const p2raw = Math.max(0, Math.min(feesTotal, PHASE2_TARGET) - PHASE1_TARGET);
+    const p2span = PHASE2_TARGET - PHASE1_TARGET;
+    const p2Pct = Math.round((p2raw/p2span)*100);
+    document.getElementById('phase2Pct').textContent = p2Pct + '%';
+    document.getElementById('phase2Bar').style.width = p2Pct + '%';
+    document.getElementById('p2Mfg').textContent = '$' + Math.floor(p2raw*0.35).toLocaleString();
+    document.getElementById('p2Batch').textContent = '$' + Math.floor(p2raw*0.35).toLocaleString();
+    document.getElementById('p2Pack').textContent = '$' + Math.floor(p2raw*0.15).toLocaleString();
+    document.querySelectorAll('#p2Unlocks li').forEach(li => {
+      const at = parseInt(li.dataset.at, 10);
+      if(feesTotal >= at && !li.classList.contains('done')){ li.classList.add('done'); li.textContent = li.textContent.replace('🔒','✅'); }
+    });
+  }
+  renderImpact();
+  setInterval(()=>{ feesTotal += 80 + Math.random()*220; renderImpact(); }, 2500);
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href');
+      if (href.length <= 1) { e.preventDefault(); return; }
+      const target = document.querySelector(href);
+      if (target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth', block:'start'}); }
+    });
+  });
+</script>
 
 </body>
 </html>
