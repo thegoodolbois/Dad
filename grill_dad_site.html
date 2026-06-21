@@ -400,15 +400,71 @@
     .gf-demo-pool{flex-direction:column;}
     .gf-vs{transform:rotate(90deg);}
   }
-  @media (max-width:560px){
-    .product-grid{grid-template-columns:1fr 1fr;}
-    .mkt-grid{grid-template-columns:1fr;}
-    .legend{grid-template-columns:1fr;}
-    .charity-top{grid-template-columns:1fr;}
-    .cause-grid{display:grid; grid-template-columns:1fr;}
-    .app-sidebar{width:50px;}
-    .app-main{padding:18px;}
-    .phase-breakdown{grid-template-columns:1fr 1fr;}
+  /* ===== PFP FORGE ===== */
+  #pfp{background:radial-gradient(ellipse at 20% 0%, rgba(255,106,43,0.08), transparent 58%);}
+  .forge{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start;}
+  .forge-controls{display:flex; flex-direction:column; gap:16px;}
+  .forge-label{font-size:11px; font-weight:800; letter-spacing:1px; color:var(--text-faint); text-transform:uppercase;}
+  .forge-input{
+    width:100%; background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    color:var(--text); font-size:14px; padding:13px 15px; font-family:inherit; resize:vertical;
+  }
+  .forge-input:focus{outline:none; border-color:var(--ember-soft); box-shadow:0 0 0 3px rgba(255,106,43,0.12);}
+  .forge-field{display:flex; flex-direction:column; gap:8px;}
+  .forge-presets{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    font-size:12.5px; font-weight:700; padding:7px 13px; border-radius:999px; cursor:pointer;
+    background:var(--gunmetal); color:var(--text-dim); border:1px solid var(--line); transition:all .18s ease;
+  }
+  .chip:hover{border-color:var(--ember-soft); color:var(--ember-soft); transform:translateY(-1px);}
+  .forge-row{display:flex; gap:10px; flex-wrap:wrap;}
+  .forge-row .btn{flex:1; min-width:150px;}
+  .forge-sliders{display:flex; gap:18px; flex-wrap:wrap;}
+  .forge-slider{flex:1; min-width:150px; display:flex; flex-direction:column; gap:8px;}
+  .forge-slider span{font-size:12px; color:var(--text-dim); font-weight:600;}
+  .forge-slider input[type=range]{width:100%; accent-color:var(--ember);}
+  .forge-select{
+    background:var(--panel); border:1px solid var(--line); border-radius:10px; color:var(--text);
+    padding:9px 12px; font-size:13px; font-family:inherit; cursor:pointer;
+  }
+  .forge-select:focus{outline:none; border-color:var(--ember-soft);}
+  .forge-toggles{display:flex; gap:10px; flex-wrap:wrap;}
+  .toggle{
+    font-size:12.5px; font-weight:700; padding:9px 15px; border-radius:10px; cursor:pointer;
+    background:transparent; color:var(--text-dim); border:1px solid var(--line); transition:all .18s ease;
+  }
+  .toggle:hover{border-color:var(--ember-soft);}
+  .toggle.active{background:rgba(255,106,43,0.14); border-color:var(--ember); color:var(--ember-soft);}
+  .forge-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;}
+  .forge-actions .btn{flex:1; min-width:150px;}
+  .forge-note{font-size:12px; color:var(--text-faint); line-height:1.5;}
+
+  .forge-stage{position:sticky; top:90px; display:flex; flex-direction:column; align-items:center; gap:14px;}
+  .forge-canvas-wrap{
+    position:relative; width:100%; max-width:420px; aspect-ratio:1/1; border-radius:20px; overflow:hidden;
+    border:1px solid var(--line); background:var(--obsidian-2);
+    box-shadow:0 30px 70px -24px rgba(0,0,0,0.6), 0 0 50px rgba(255,106,43,0.1);
+  }
+  #forgeCanvas{width:100%; height:100%; display:block;}
+  .forge-loading{
+    position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center;
+    gap:14px; background:rgba(7,7,10,0.72); backdrop-filter:blur(3px); color:var(--text-dim);
+    font-size:13px; font-weight:700; letter-spacing:0.5px; z-index:3;
+  }
+  .forge-loading.show{display:flex;}
+  .forge-spin{width:34px; height:34px; border-radius:50%; border:3px solid var(--gunmetal); border-top-color:var(--ember); animation:spin 0.8s linear infinite;}
+  .forge-credit{font-size:11.5px; color:var(--text-faint);}
+  .forge-credit a{color:var(--ember-soft); text-decoration:underline;}
+
+  @media (max-width:880px){
+    .forge{grid-template-columns:1fr; gap:30px;}
+    .forge-stage{position:static; order:-1;}
+    .forge-canvas-wrap{max-width:340px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+    .reveal{opacity:1; transform:none;}
   }
 </style>
 </head>
@@ -424,6 +480,7 @@
       <a href="#engine">Live Engine</a>
       <a href="#token">Token</a>
       <a href="#nfts">NFTs</a>
+      <a href="#pfp">Make a PFP</a>
       <a href="#roadmap">Roadmap</a>
     </div>
     <div class="nav-cta">
@@ -436,6 +493,7 @@
     <a href="#token">Token</a>
     <a href="#app-preview">App Preview</a>
     <a href="#nfts">NFTs</a>
+    <a href="#pfp">Make a PFP</a>
     <a href="#agents">Agents</a>
     <a href="#trends">Trend Engine</a>
     <a href="#products">Products</a>
@@ -468,7 +526,7 @@
     </div>
     <div class="hero-art">
       <div class="hero-art-glow"></div>
-      <img class="mascot mascot-photo" src="https://cdn.dexscreener.com/cms/images/SU2JkvChXhSk6QPf?width=512&height=512&fit=crop&quality=95&format=auto" alt="Dad mascot">
+      <img class="mascot mascot-photo" src="IMG_0030.jpeg" alt="DAD mascot — bearded dad holding a beer" id="heroMascot" width="568" height="568" loading="eager">
     </div>
   </div>
 </section>
@@ -656,6 +714,82 @@
       <div class="nft-card"><span class="lvl">LV 5</span><div class="nft-badge" style="background:linear-gradient(160deg,#7a2f12,#3a1505); box-shadow:0 0 26px rgba(255,61,0,0.4);">🏆</div><h4>Neighborhood Legend</h4><p>Top-tier reputation. Mentoring others, running agents, giving back.</p></div>
       <div class="ladder-arrow">→</div>
       <div class="nft-card"><span class="lvl">LV 6</span><div class="nft-badge" style="background:linear-gradient(160deg,#a3470d,#4a1c05); box-shadow:0 0 34px rgba(255,106,43,0.55);">👑</div><h4>Ultimate Dad</h4><p>The full transformation. Builder, leader, provider — fully realized.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PFP GENERATOR -->
+<section id="pfp" class="section">
+  <div class="wrap">
+    <div class="reveal" style="max-width:680px; margin-bottom:44px;">
+      <span class="section-tag">PFP Forge</span>
+      <h2 class="section-title">Turn Any Meme Into A Dad</h2>
+      <p class="section-sub">Type a vibe, drop in a meme, and Dad becomes the host. Generate a fresh backdrop with AI, stamp the mascot on top, add a caption, then export a clean 512&times;512 profile picture. Runs entirely in your browser — no login, no wallet, nothing uploaded to us.</p>
+    </div>
+
+    <div class="forge reveal">
+      <!-- CONTROLS -->
+      <div class="forge-controls">
+        <label class="forge-label" for="forgePrompt">Prompt</label>
+        <textarea id="forgePrompt" class="forge-input" rows="2" placeholder="e.g. a grizzled dad grilling on the moon, neon ember sky, cinematic"></textarea>
+
+        <div class="forge-presets" id="forgePresets">
+          <button class="chip" data-img="IMG_0037.jpeg">🍖 Backyard BBQ</button>
+          <button class="chip" data-add="flames and embers, dramatic backlight">🔥 Embers</button>
+          <button class="chip" data-add="vaporwave grid, retro 80s sunset">🌆 Vaporwave</button>
+          <button class="chip" data-add="pixel art, 8-bit arcade style">🕹️ Pixel</button>
+          <button class="chip" data-add="oil painting, renaissance portrait lighting">🖼️ Classic</button>
+          <button class="chip" data-add="cyberpunk city, rain, holographic signs">🌃 Cyberpunk</button>
+        </div>
+
+        <div class="forge-row">
+          <button class="btn btn-primary" id="forgeGenerate">✨ Generate Backdrop</button>
+          <label class="btn btn-outline" for="forgeUpload" style="cursor:pointer;">📷 Use a Meme</label>
+          <input type="file" id="forgeUpload" accept="image/*" hidden>
+        </div>
+
+        <div class="forge-field">
+          <label class="forge-label" for="forgeCaption">Caption (optional)</label>
+          <input type="text" id="forgeCaption" class="forge-input" maxlength="42" placeholder="#1 DAD">
+        </div>
+
+        <div class="forge-sliders">
+          <div class="forge-slider">
+            <span>Dad size</span>
+            <input type="range" id="forgeScale" min="30" max="100" value="62" aria-label="Dad size">
+          </div>
+          <div class="forge-slider">
+            <span>Dad position</span>
+            <select id="forgePos" class="forge-select" aria-label="Dad position">
+              <option value="center">Center</option>
+              <option value="bottom" selected>Bottom</option>
+              <option value="left">Bottom-left</option>
+              <option value="right">Bottom-right</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="forge-toggles">
+          <button class="toggle active" id="forgeFrame">Ember ring</button>
+          <button class="toggle" id="forgeGray">Mono backdrop</button>
+          <button class="toggle" id="forgeCutout">Circle crop</button>
+        </div>
+
+        <div class="forge-actions">
+          <button class="btn btn-primary" id="forgeDownload">⬇️ Download PFP</button>
+          <button class="btn btn-outline" id="forgeReset">Reset</button>
+        </div>
+        <p class="forge-note" id="forgeNote">Tip: hit Generate for a fresh backdrop, tap Backyard BBQ to use the grill scene, or load your own meme. Dad rides on top either way.</p>
+      </div>
+
+      <!-- CANVAS -->
+      <div class="forge-stage">
+        <div class="forge-canvas-wrap">
+          <canvas id="forgeCanvas" width="512" height="512"></canvas>
+          <div class="forge-loading" id="forgeLoading"><div class="forge-spin"></div><span>Forging…</span></div>
+        </div>
+        <div class="forge-credit">Backdrops by <a href="https://github.com/pollinations/pollinations" target="_blank" rel="noopener">Pollinations</a> · free &amp; open source</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1169,6 +1303,227 @@
       if (target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth', block:'start'}); }
     });
   });
+  /* ===== PFP FORGE ===== */
+  (function(){
+    const cv = document.getElementById('forgeCanvas');
+    if(!cv) return;
+    const fx = cv.getContext('2d');
+    const SIZE = 512;
+
+    const HOST_SRC = 'IMG_0030.jpeg';     // square beer-dad = the host
+    const SCENE_SRC = 'IMG_0037.jpeg';    // wide grill scene = default backdrop
+
+    const state = {
+      backdrop: null, mascot: null,
+      caption: '', scale: 62, pos: 'bottom',
+      frame: true, mono: false, circle: false
+    };
+
+    const note = document.getElementById('forgeNote');
+    const loading = document.getElementById('forgeLoading');
+    const setNote = (t)=>{ note.textContent = t; };
+    const showLoading = (b)=> loading.classList.toggle('show', b);
+
+    // Host mascot (same-origin → safe to export)
+    const mascot = new Image();
+    mascot.onload = () => { state.mascot = mascot; render(); };
+    mascot.onerror = () => { setNote('Could not load the Dad mascot (IMG_0030.jpeg). Check it sits next to index.html.'); render(); };
+    mascot.src = HOST_SRC;
+
+    // Default backdrop = the backyard grill scene (same-origin)
+    const scene = new Image();
+    scene.onload = () => { state.backdrop = scene; render(); };
+    scene.onerror = () => { render(); };
+    scene.src = SCENE_SRC;
+
+    function coverDraw(img, ctx){
+      const ir = img.width / img.height;
+      let dw, dh;
+      if(ir > 1){ dh = SIZE; dw = SIZE * ir; } else { dw = SIZE; dh = SIZE / ir; }
+      ctx.drawImage(img, (SIZE-dw)/2, (SIZE-dh)/2, dw, dh);
+    }
+    function roundRect(ctx, x, y, w, h, r){
+      ctx.beginPath();
+      ctx.moveTo(x+r, y);
+      ctx.arcTo(x+w, y, x+w, y+h, r);
+      ctx.arcTo(x+w, y+h, x, y+h, r);
+      ctx.arcTo(x, y+h, x, y, r);
+      ctx.arcTo(x, y, x+w, y, r);
+      ctx.closePath();
+    }
+
+    function render(){
+      fx.clearRect(0,0,SIZE,SIZE);
+      fx.fillStyle = '#0d0e12';
+      fx.fillRect(0,0,SIZE,SIZE);
+
+      if(state.backdrop){
+        fx.save();
+        fx.filter = state.mono ? 'grayscale(1) contrast(1.05)' : 'none';
+        coverDraw(state.backdrop, fx);
+        fx.restore();
+      } else {
+        const g = fx.createRadialGradient(SIZE/2, SIZE*0.35, 40, SIZE/2, SIZE*0.35, SIZE*0.8);
+        g.addColorStop(0, 'rgba(255,106,43,0.18)');
+        g.addColorStop(1, 'rgba(13,14,18,0)');
+        fx.fillStyle = g; fx.fillRect(0,0,SIZE,SIZE);
+      }
+
+      if(state.mascot){
+        const mr = state.mascot.width / state.mascot.height;
+        const targetW = (state.scale/100) * SIZE;
+        const targetH = targetW / mr;
+        const margin = SIZE * 0.04;
+        let cx;
+        if(state.pos === 'left') cx = targetW/2 + margin;
+        else if(state.pos === 'right') cx = SIZE - targetW/2 - margin;
+        else cx = SIZE/2;
+        const y = (state.pos === 'center') ? (SIZE - targetH)/2 : SIZE - targetH - margin;
+        const x = cx - targetW/2;
+
+        fx.save();
+        fx.shadowColor = 'rgba(0,0,0,0.55)'; fx.shadowBlur = 28; fx.shadowOffsetY = 10;
+
+        if(state.circle){
+          const d = Math.min(targetW, targetH);
+          const ccx = cx, ccy = y + targetH/2;
+          fx.beginPath(); fx.arc(ccx, ccy, d/2, 0, Math.PI*2); fx.closePath(); fx.clip();
+          const sr = state.mascot.width/state.mascot.height;
+          let dw2, dh2;
+          if(sr > 1){ dh2 = d; dw2 = d*sr; } else { dw2 = d; dh2 = d/sr; }
+          fx.drawImage(state.mascot, ccx - dw2/2, ccy - dh2/2, dw2, dh2);
+          fx.restore();
+          fx.save();
+          fx.beginPath(); fx.arc(ccx, ccy, d/2, 0, Math.PI*2);
+          fx.lineWidth = 6; fx.strokeStyle = '#ff6a2b';
+          fx.shadowColor = 'rgba(255,106,43,0.6)'; fx.shadowBlur = 18; fx.stroke();
+          fx.restore();
+        } else {
+          roundRect(fx, x, y, targetW, targetH, 22); fx.clip();
+          fx.drawImage(state.mascot, x, y, targetW, targetH);
+          fx.restore();
+        }
+      }
+
+      if(state.caption.trim()){
+        const txt = state.caption.trim().toUpperCase();
+        const atTop = (state.pos !== 'center');
+        fx.save();
+        let fontSize = 46;
+        const setFont = ()=> fx.font = `900 ${fontSize}px -apple-system, "Segoe UI", Roboto, Arial, sans-serif`;
+        setFont();
+        while(fx.measureText(txt).width > SIZE - 60 && fontSize > 18){ fontSize -= 2; setFont(); }
+        const tw = fx.measureText(txt).width;
+        const py = atTop ? 30 : SIZE - 30 - fontSize;
+        const pad = 18;
+        roundRect(fx, (SIZE-tw)/2 - pad, py - 8, tw + pad*2, fontSize + 16, 14);
+        fx.fillStyle = 'rgba(7,7,10,0.62)'; fx.fill();
+        fx.fillStyle = '#ffae42'; fx.textBaseline = 'top'; fx.textAlign = 'left';
+        fx.fillText(txt, (SIZE-tw)/2, py);
+        fx.restore();
+      }
+
+      if(state.frame){
+        fx.save();
+        roundRect(fx, 7, 7, SIZE-14, SIZE-14, 30);
+        fx.lineWidth = 6; fx.strokeStyle = 'rgba(255,106,43,0.85)';
+        fx.shadowColor = 'rgba(255,106,43,0.5)'; fx.shadowBlur = 22; fx.stroke();
+        fx.restore();
+      }
+    }
+
+    // Load a same-origin image as the backdrop (presets / default)
+    function loadLocalBackdrop(src, msg){
+      const img = new Image();
+      img.onload = () => { state.backdrop = img; if(msg) setNote(msg); render(); };
+      img.onerror = () => setNote('Could not load ' + src + ' — make sure it is in the repo next to index.html.');
+      img.src = src;
+    }
+
+    // AI backdrop via Pollinations (free, no key, CORS-enabled → exportable)
+    function generate(){
+      let prompt = document.getElementById('forgePrompt').value.trim();
+      if(!prompt) prompt = 'a proud dad, warm ember lighting, dramatic backdrop, highly detailed';
+      prompt += ', high quality, sharp, profile picture art';
+      const seed = Math.floor(Math.random()*1e6);
+      const url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt)
+                + '?width=768&height=768&seed=' + seed + '&nologo=true';
+      showLoading(true);
+      setNote('Generating a fresh backdrop… first run can take 10–20s.');
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => { state.backdrop = img; showLoading(false); setNote('Backdrop ready. Dad is on top — tweak size, add a caption, then download.'); render(); };
+      img.onerror = () => { showLoading(false); setNote('Backdrop service didn\u2019t respond. Try again, tap Backyard BBQ, or load your own meme.'); };
+      img.src = url;
+    }
+
+    // Upload a meme (local file → data URL, always exportable)
+    function handleUpload(e){
+      const file = e.target.files && e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const img = new Image();
+        img.onload = () => { state.backdrop = img; setNote('Meme loaded as the backdrop. Position Dad on top and export.'); render(); };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function download(){
+      try{
+        const link = document.createElement('a');
+        link.download = 'dad-pfp.png';
+        link.href = cv.toDataURL('image/png');
+        link.click();
+        setNote('Saved as dad-pfp.png 🔥');
+      }catch(err){
+        setNote('Export blocked by the browser (tainted canvas). Try generating again or use a meme you upload.');
+      }
+    }
+
+    document.getElementById('forgeGenerate').addEventListener('click', generate);
+    document.getElementById('forgeUpload').addEventListener('change', handleUpload);
+    document.getElementById('forgeDownload').addEventListener('click', download);
+    document.getElementById('forgeCaption').addEventListener('input', (e)=>{ state.caption = e.target.value; render(); });
+    document.getElementById('forgeScale').addEventListener('input', (e)=>{ state.scale = +e.target.value; render(); });
+    document.getElementById('forgePos').addEventListener('change', (e)=>{ state.pos = e.target.value; render(); });
+
+    document.getElementById('forgePresets').addEventListener('click', (e)=>{
+      const chip = e.target.closest('.chip');
+      if(!chip) return;
+      if(chip.dataset.img){
+        loadLocalBackdrop(chip.dataset.img, 'Backyard grill scene loaded — Dad is home. Tweak and export.');
+        return;
+      }
+      const box = document.getElementById('forgePrompt');
+      box.value = box.value.trim() ? box.value.trim() + ', ' + chip.dataset.add : chip.dataset.add;
+      box.focus();
+    });
+
+    function bindToggle(id, key){
+      const btn = document.getElementById(id);
+      btn.addEventListener('click', ()=>{ state[key] = !state[key]; btn.classList.toggle('active', state[key]); render(); });
+    }
+    bindToggle('forgeFrame', 'frame');
+    bindToggle('forgeGray', 'mono');
+    bindToggle('forgeCutout', 'circle');
+
+    document.getElementById('forgeReset').addEventListener('click', ()=>{
+      state.caption = ''; state.scale = 62; state.pos = 'bottom';
+      state.frame = true; state.mono = false; state.circle = false;
+      document.getElementById('forgePrompt').value = '';
+      document.getElementById('forgeCaption').value = '';
+      document.getElementById('forgeScale').value = 62;
+      document.getElementById('forgePos').value = 'bottom';
+      document.getElementById('forgeFrame').classList.add('active');
+      document.getElementById('forgeGray').classList.remove('active');
+      document.getElementById('forgeCutout').classList.remove('active');
+      loadLocalBackdrop(SCENE_SRC, 'Reset to the backyard scene. Generate or load a meme to remix.');
+    });
+
+    render();
+  })();
 </script>
 
 </body>
